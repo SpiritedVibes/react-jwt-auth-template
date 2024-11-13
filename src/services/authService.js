@@ -18,6 +18,7 @@ const signup = async (formData) => {
       return user
     }
     return res.data
+
   } catch (err) {
     console.log(err)
     throw err
@@ -53,8 +54,13 @@ const getUser = () =>  {
   return user
 }
 
+const signout = () => {
+  localStorage.removeItem('token')
+}
+
 export {
   signup,
   signin,
-  getUser
+  getUser,
+  signout
 }

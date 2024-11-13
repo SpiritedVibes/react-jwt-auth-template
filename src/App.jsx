@@ -1,17 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import NavBar from './components/NavBar/NavBar'
 import Landing from './components/Landing/Landing'
 import Dashboard from './components/Dashboard/Dashboard'
 import SignupForm from './components/SignupForm/SignupForm' // import the SignupForm
 import SigninForm from './components/SigninForm/SigninForm'
+import * as authService from './services/authService'
 
 const App = () => {
   const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const storedUser = authService.getUser()  // Get user from localStorage
+    if (storedUser) setUser(storedUser)  // If a user is found, set it in state
+  }, [])
   
+  const handleSignout = () => {
+    authService.signout()
+    setUser(null)
+  }
+
 return (
   <>
-    <NavBar user={user} />
+     <NavBar user={user} handleSignout={handleSignout} /> 
     <Routes>
       {
         user ?
